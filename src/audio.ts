@@ -2,6 +2,7 @@ export type AudioState = "idle" | "preparing" | "playing" | "paused";
 /** AudioBufferSource schedules segment boundaries on the audio clock, not JS timers. */
 export class SegmentPlayer {
   context: AudioContext;
+  private gain: GainNode;
   private source: AudioBufferSourceNode | null = null;
   private generation = 0;
   private buffer: AudioBuffer | null = null;
@@ -13,6 +14,13 @@ export class SegmentPlayer {
   onState: (s: AudioState) => void = () => {};
   constructor() {
     this.context = new AudioContext();
+    this.gain = this.context.createGain();
+    this.gain.connect(this.context.destination);
+  }
+  setVolume(v: number) {
+    const value = Math.min(1, Math.max(0, v));
+    // A short ramp avoids clicks while dragging the slider.
+    this.gain.gain.setTargetAtTime(value, this.context.currentTime, 0.015);
   }
   private set(s: AudioState) {
     this.state = s;
@@ -61,7 +69,7 @@ export class SegmentPlayer {
     if (!this.buffer) return;
     const s = this.context.createBufferSource();
     s.buffer = this.buffer;
-    s.connect(this.context.destination);
+    s.connect(this.gain);
     this.source = s;
     this.scheduled = when;
     this.set("preparing");

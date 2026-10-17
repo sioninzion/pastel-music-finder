@@ -19,6 +19,9 @@ import {
   Headphones,
   Eye,
   LogOut,
+  Volume1,
+  Volume2,
+  VolumeX,
 } from "lucide-react";
 import { SegmentPlayer, type AudioState } from "./audio";
 import {
@@ -46,6 +49,17 @@ function App() {
     [audioState, setAudioState] = useState<AudioState>("idle"),
     [mode, setMode] = useState(""),
     [answer, setAnswer] = useState(false),
+    [volume, setVolume] = useState(() => {
+      try {
+        const v = Number(localStorage.getItem(volumeKey));
+        return localStorage.getItem(volumeKey) !== null && Number.isFinite(v)
+          ? Math.min(1, Math.max(0, v))
+          : 1;
+      } catch {
+        return 1;
+      }
+    }),
+    [muted, setMuted] = useState(false),
     [fraction, setFraction] = useState(0),
     [swReady, setSwReady] = useState(false),
     [online, setOnline] = useState(navigator.onLine);
@@ -67,11 +81,23 @@ function App() {
     blobs = useRef(new Map<number, Blob>()),
     endingSeen = useRef(done.length === 15),
     busy = useRef(false),
-    selection = useRef(0);
+    selection = useRef(0),
+    volumeRef = useRef(muted ? 0 : volume);
+  useEffect(() => {
+    volumeRef.current = muted ? 0 : volume;
+    player.current?.setVolume(volumeRef.current);
+    try {
+      localStorage.setItem(volumeKey, String(volume));
+    } catch {}
+  }, [volume, muted]);
+  useEffect(() => {
+    document.getElementById("boot-fail")?.setAttribute("hidden", "");
+  }, []);
   const getPlayer = () => {
     if (!player.current) {
       player.current = new SegmentPlayer();
       player.current.onState = setAudioState;
+      player.current.setVolume(volumeRef.current);
     }
     return player.current;
   };
@@ -249,6 +275,23 @@ function App() {
         )
       )
         return;
+      if ((e.target as HTMLElement).getAttribute?.("type") === "range") return;
+      if (e.key === "ArrowUp" || e.key === "ArrowDown") {
+        e.preventDefault();
+        setMuted(false);
+        setVolume(
+          (v) =>
+            Math.round(
+              Math.min(1, Math.max(0, v + (e.key === "ArrowUp" ? 0.1 : -0.1))) *
+                10,
+            ) / 10,
+        );
+        return;
+      }
+      if (e.key.toLowerCase() === "m") {
+        setMuted((m) => !m);
+        return;
+      }
       if (currentRef.current === null) return;
       const k = e.key.toLowerCase();
       if (["1", "3", "5", "r", "f", "a", " ", "escape"].includes(k))
@@ -646,6 +689,40 @@ function App() {
           </span>
           <div className="footer-tools">
             {!online && <WifiOff size={14} />}
+            <div className="volume">
+              <button
+                aria-label={muted ? "음소거 해제" : "음소거"}
+                onClick={() => setMuted((m) => !m)}
+              >
+                {muted || volume === 0 ? (
+                  <VolumeX size={16} />
+                ) : volume < 0.5 ? (
+                  <Volume1 size={16} />
+                ) : (
+                  <Volume2 size={16} />
+                )}
+              </button>
+              <input
+                type="range"
+                aria-label="음량"
+                min={0}
+                max={100}
+                step={1}
+                value={muted ? 0 : Math.round(volume * 100)}
+                style={
+                  {
+                    "--fill": `${muted ? 0 : Math.round(volume * 100)}%`,
+                  } as React.CSSProperties
+                }
+                onChange={(e) => {
+                  setMuted(false);
+                  setVolume(Number(e.target.value) / 100);
+                }}
+              />
+              <span className="volume-value">
+                {muted ? 0 : Math.round(volume * 100)}
+              </span>
+            </div>
             <button
               aria-label="음원 관리"
               onClick={() => setSetup(true)}
@@ -770,6 +847,29 @@ function App() {
     </div>
   );
 }
+const volumeKey = "music-game-volume";
+class Boundary extends React.Component<
+  { children: React.ReactNode },
+  { failed: string }
+> {
+  state = { failed: "" };
+  static getDerivedStateFromError(e: unknown) {
+    return { failed: e instanceof Error ? e.message : String(e) };
+  }
+  render() {
+    if (!this.state.failed) return this.props.children;
+    return (
+      <div className="crash">
+        <h2>화면에 문제가 생겼어요</h2>
+        <p>진행도와 음원은 그대로 있어요. 다시 불러오면 이어서 할 수 있어요.</p>
+        <small>{this.state.failed}</small>
+        <button className="primary" onClick={() => location.reload()}>
+          다시 불러오기
+        </button>
+      </div>
+    );
+  }
+}
 function FileIcon({
   small = false,
   color = 0,
@@ -789,4 +889,8 @@ function FileIcon({
     </div>
   );
 }
-createRoot(document.getElementById("root")!).render(<App />);
+createRoot(document.getElementById("root")!).render(
+  <Boundary>
+    <App />
+  </Boundary>,
+);

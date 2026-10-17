@@ -154,6 +154,64 @@ button:active:not(:disabled) {
 .footer-tools button {
   padding: 5px;
 }
+.volume {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-right: 4px;
+  color: #65859a;
+}
+.volume input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 96px;
+  height: 4px;
+  border-radius: 2px;
+  background: linear-gradient(
+    to right,
+    #49acf1 var(--fill),
+    #dbe6ef var(--fill)
+  );
+  cursor: pointer;
+}
+.volume input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: white;
+  border: 1px solid #b7d9f5;
+  box-shadow: 0 1px 3px #3a8bb933;
+}
+.volume input[type="range"]::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: white;
+  border: 1px solid #b7d9f5;
+}
+.volume-value {
+  font-size: 11px;
+  color: #8a9aa8;
+  width: 22px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.crash {
+  max-width: 420px;
+  margin: 15vh auto;
+  padding: 24px;
+  text-align: center;
+}
+.crash p {
+  color: #5f7d93;
+}
+.crash small {
+  display: block;
+  color: #939ca5;
+  margin-bottom: 18px;
+  word-break: break-all;
+}
 .welcome-screen,
 .instructions-screen {
   height: 100%;
@@ -838,6 +896,12 @@ h1 {
   }
 }
 @media (max-width: 700px) {
+  .volume input[type="range"] {
+    width: 58px;
+  }
+  .volume-value {
+    display: none;
+  }
   .desktop {
     padding: 12px;
     min-height: 560px;

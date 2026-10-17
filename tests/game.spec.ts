@@ -62,7 +62,7 @@ test("missing audio gates entry, no participant fields, invalid imports rejected
   await expect(
     page.getByRole("button", { name: "01번 문제", exact: true }),
   ).toHaveCount(0);
-  await expect(page.locator("input:not([type=file])")).toHaveCount(0);
+  await expect(page.locator("input:not([type=file]):not([type=range])")).toHaveCount(0);
   await page.getByLabel("음원 파일 선택").setInputFiles({
     name: "01 - invalid.mp3",
     mimeType: "audio/mpeg",
@@ -287,4 +287,57 @@ test("answer screen reveals title and exit completes the question", async ({
   await page.getByRole("button", { name: "03번 문제 완료" }).click();
   await expect(page.locator(".answer-title")).toHaveCount(0);
   await expect(page.locator(".play-state")).toContainText("재생 대기");
+});
+test("volume slider, mute and arrow keys set gain and persist", async ({
+  page,
+}) => {
+  await page.addInitScript(() => {
+    const win = window as any;
+    win.gains = [];
+    const orig = AudioParam.prototype.setTargetAtTime;
+    AudioParam.prototype.setTargetAtTime = function (
+      v: number,
+      t: number,
+      c: number,
+    ) {
+      win.gains.push(v);
+      return orig.call(this, v, t, c);
+    };
+  });
+  await prepare(page);
+  const slider = page.getByRole("slider", { name: "음량" });
+  await expect(slider).toHaveValue("100");
+  await slider.fill("40");
+  await expect(page.locator(".volume-value")).toHaveText("40");
+  await page.getByRole("button", { name: "02번 문제", exact: true }).click();
+  await page.getByRole("button", { name: "1초 재생", exact: true }).click();
+  await expect
+    .poll(() => page.evaluate(() => (window as any).gains.at(-1)))
+    .toBeCloseTo(0.4);
+  await page.keyboard.press("ArrowUp");
+  await expect(slider).toHaveValue("50");
+  await expect
+    .poll(() => page.evaluate(() => (window as any).gains.at(-1)))
+    .toBeCloseTo(0.5);
+  await page.getByRole("button", { name: "음소거", exact: true }).click();
+  await expect(slider).toHaveValue("0");
+  await expect
+    .poll(() => page.evaluate(() => (window as any).gains.at(-1)))
+    .toBe(0);
+  await page.keyboard.press("m");
+  await expect(slider).toHaveValue("50");
+  await page.reload();
+  await expect(page.getByRole("slider", { name: "음량" })).toHaveValue("50");
+});
+test("broken script load shows reset screen instead of a blank page", async ({
+  page,
+}) => {
+  await page.route("**/assets/*.js", (route) =>
+    route.fulfill({ status: 404, body: "" }),
+  );
+  await page.goto("./");
+  await expect(page.getByText("화면을 불러오지 못했어요")).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "초기화 후 다시 열기" }),
+  ).toBeVisible();
 });
