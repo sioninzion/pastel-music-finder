@@ -73,6 +73,12 @@ test("missing audio gates entry, no participant fields, invalid imports rejected
 test("play timing, rapid replacement, pause, keyboard, completion and reset", async ({
   page,
 }) => {
+  await page.route("**/tracks.json", async (route) => {
+    const r = await route.fetch();
+    const d = await r.json();
+    d.tracks[6].highlightStart = null;
+    await route.fulfill({ json: d });
+  });
   await page.addInitScript(() => {
     const win = window as any;
     win.audioEvents = [];
