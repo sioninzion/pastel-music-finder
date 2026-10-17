@@ -6,3 +6,5 @@ playwright-report/
 public/audio/*
 !public/audio/.gitkeep
 .env*
+
+*.tsbuildinfo
