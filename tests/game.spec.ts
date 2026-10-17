@@ -32,6 +32,10 @@ async function prepare(page: Page) {
       buffer: wav(),
     })),
   );
+  await page.getByRole("button", { name: "시작", exact: true }).click();
+  await expect(page.getByRole("heading", { name: "게임 방법" })).toBeVisible();
+  await page.screenshot({ path: "test-results/instructions-1366.png" });
+  await page.getByRole("button", { name: "문제 선택", exact: true }).click();
   await expect(
     page.getByRole("button", { name: "01번 문제", exact: true }),
   ).toBeVisible();
@@ -41,6 +45,15 @@ test("missing audio gates entry, no participant fields, invalid imports rejected
 }) => {
   await page.goto("./");
   await expect(page.getByLabel("음원 파일 선택")).toBeEnabled();
+  await expect(
+    page.getByRole("heading", { name: "음악 맞추기 게임", exact: true }),
+  ).toBeVisible();
+  await page.screenshot({ path: "test-results/welcome-1366.png" });
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollHeight <= innerHeight,
+    ),
+  ).toBe(true);
   await expect(
     page.getByRole("button", { name: "01번 문제", exact: true }),
   ).toHaveCount(0);
@@ -73,12 +86,12 @@ test("play timing, rapid replacement, pause, keyboard, completion and reset", as
   ).toBeDisabled();
   await expect(page.locator(".content")).not.toContainText("Walking");
   await page.getByRole("button", { name: "1초 재생", exact: true }).click();
-  await expect(page.locator(".play-state")).toContainText("잠깐");
-  await expect(page.locator(".play-state")).toContainText("흐르고", {
+  await expect(page.locator(".play-state")).toContainText("준비 중");
+  await expect(page.locator(".play-state")).toContainText("재생 중", {
     timeout: 3000,
   });
   await page.screenshot({ path: "test-results/question-1366.png" });
-  await expect(page.locator(".play-state")).toContainText("아래", {
+  await expect(page.locator(".play-state")).toContainText("재생 대기", {
     timeout: 3000,
   });
   const event = await page.evaluate(() => (window as any).audioEvents[0]);
@@ -87,14 +100,14 @@ test("play timing, rapid replacement, pause, keyboard, completion and reset", as
   await page.keyboard.press("3");
   await page.keyboard.press("1");
   await page.keyboard.press("5");
-  await expect(page.locator(".play-state")).toContainText("흐르고");
+  await expect(page.locator(".play-state")).toContainText("재생 중");
   await page.keyboard.press("Space");
-  await expect(page.locator(".play-state")).toContainText("멈췄어요");
+  await expect(page.locator(".play-state")).toContainText("일시정지");
   await page.waitForTimeout(1200);
-  await expect(page.locator(".play-state")).toContainText("멈췄어요");
+  await expect(page.locator(".play-state")).toContainText("일시정지");
   await page.keyboard.press("Space");
-  await expect(page.locator(".play-state")).toContainText("흐르고");
-  await expect(page.locator(".play-state")).toContainText("아래", {
+  await expect(page.locator(".play-state")).toContainText("재생 중");
+  await expect(page.locator(".play-state")).toContainText("재생 대기", {
     timeout: 6500,
   });
   await page.keyboard.press("Escape");
@@ -151,7 +164,7 @@ test("offline reload, all fifteen finish, responsive layout and fixed mapping", 
       .click();
     if (i === 1) {
       await page.keyboard.press("1");
-      await expect(page.locator(".play-state")).toContainText("흐르고");
+      await expect(page.locator(".play-state")).toContainText("재생 중");
     }
     await page.keyboard.press("Escape");
   }
@@ -180,6 +193,11 @@ test("offline reload, all fifteen finish, responsive layout and fixed mapping", 
         () => document.documentElement.scrollWidth <= innerWidth,
       ),
     ).toBe(true);
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollHeight <= innerHeight,
+      ),
+    ).toBe(true);
   }
 });
 test("representative segment accepts mm:ss and full track uses complete duration", async ({
@@ -202,12 +220,12 @@ test("representative segment accepts mm:ss and full track uses complete duration
   await prepare(page);
   await page.getByRole("button", { name: "01번 문제", exact: true }).click();
   await page.keyboard.press("r");
-  await expect(page.locator(".play-state")).toContainText("흐르고");
+  await expect(page.locator(".play-state")).toContainText("재생 중");
   let args = await page.evaluate(() => (window as any).audioEvents.at(-1));
   expect(args[1]).toBe(2);
   expect(args[2]).toBe(3);
   await page.keyboard.press("f");
-  await expect(page.locator(".play-state")).toContainText("흐르고");
+  await expect(page.locator(".play-state")).toContainText("재생 중");
   args = await page.evaluate(() => (window as any).audioEvents.at(-1));
   expect(args[1]).toBe(0);
   expect(args[2]).toBeCloseTo(8, 2);

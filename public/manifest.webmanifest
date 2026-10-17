@@ -1,1 +1,17 @@
-{"name":"음악을 찾아서","short_name":"Music Finder","start_url":"./","scope":"./","display":"standalone","background_color":"#f3f1ec","theme_color":"#f3f1ec","icons":[{"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any"}]}
+{
+  "name": "음악 맞추기 게임",
+  "short_name": "음악 맞추기 게임",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#d5edff",
+  "theme_color": "#d5edff",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
