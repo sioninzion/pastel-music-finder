@@ -22,6 +22,8 @@ import {
   Volume1,
   Volume2,
   VolumeX,
+  Maximize,
+  Minimize,
 } from "lucide-react";
 import { SegmentPlayer, type AudioState } from "./audio";
 import {
@@ -60,6 +62,7 @@ function App() {
       }
     }),
     [muted, setMuted] = useState(false),
+    [fullscreen, setFullscreen] = useState(false),
     [fraction, setFraction] = useState(0),
     [swReady, setSwReady] = useState(false),
     [online, setOnline] = useState(navigator.onLine);
@@ -92,7 +95,21 @@ function App() {
   }, [volume, muted]);
   useEffect(() => {
     document.getElementById("boot-fail")?.setAttribute("hidden", "");
+    const sync = () => setFullscreen(document.fullscreenElement !== null);
+    document.addEventListener("fullscreenchange", sync);
+    return () => document.removeEventListener("fullscreenchange", sync);
   }, []);
+  function toggleFullscreen() {
+    if (document.fullscreenElement) void document.exitFullscreen();
+    else
+      void document.documentElement
+        .requestFullscreen?.()
+        .catch(() =>
+          setNotice(
+            "이 브라우저에서는 전체화면을 쓸 수 없어요. F11을 눌러주세요.",
+          ),
+        );
+  }
   const getPlayer = () => {
     if (!player.current) {
       player.current = new SegmentPlayer();
@@ -404,6 +421,14 @@ function App() {
                 <span>15개</span>
               </>
             )}
+            <button
+              className="fullscreen"
+              aria-label={fullscreen ? "전체화면 끝내기" : "전체화면"}
+              title={fullscreen ? "전체화면 끝내기" : "전체화면"}
+              onClick={toggleFullscreen}
+            >
+              {fullscreen ? <Minimize size={17} /> : <Maximize size={17} />}
+            </button>
           </div>
         </header>
         <section className="content">

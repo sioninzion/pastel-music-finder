@@ -128,6 +128,15 @@ button:active:not(:disabled) {
   color: #7b838c;
   font-size: 12px;
 }
+.toolbar-end .fullscreen {
+  width: 30px;
+  height: 28px;
+  border-radius: 6px;
+  color: #65859a;
+}
+.toolbar-end .fullscreen:hover {
+  background: #eaf4fc;
+}
 .content {
   flex: 1;
   min-height: 0;

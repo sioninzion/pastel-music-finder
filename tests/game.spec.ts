@@ -62,7 +62,9 @@ test("missing audio gates entry, no participant fields, invalid imports rejected
   await expect(
     page.getByRole("button", { name: "01번 문제", exact: true }),
   ).toHaveCount(0);
-  await expect(page.locator("input:not([type=file]):not([type=range])")).toHaveCount(0);
+  await expect(
+    page.locator("input:not([type=file]):not([type=range])"),
+  ).toHaveCount(0);
   await page.getByLabel("음원 파일 선택").setInputFiles({
     name: "01 - invalid.mp3",
     mimeType: "audio/mpeg",
@@ -339,5 +341,19 @@ test("broken script load shows reset screen instead of a blank page", async ({
   await expect(page.getByText("화면을 불러오지 못했어요")).toBeVisible();
   await expect(
     page.getByRole("button", { name: "초기화 후 다시 열기" }),
+  ).toBeVisible();
+});
+test("fullscreen button toggles fullscreen", async ({ page }) => {
+  await page.goto("./");
+  await page.getByRole("button", { name: "전체화면", exact: true }).click();
+  await expect
+    .poll(() => page.evaluate(() => document.fullscreenElement !== null))
+    .toBe(true);
+  await page.getByRole("button", { name: "전체화면 끝내기" }).click();
+  await expect
+    .poll(() => page.evaluate(() => document.fullscreenElement === null))
+    .toBe(true);
+  await expect(
+    page.getByRole("button", { name: "전체화면", exact: true }),
   ).toBeVisible();
 });
