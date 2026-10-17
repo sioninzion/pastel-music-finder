@@ -8,18 +8,27 @@ permissions:
 jobs:
   browsers:
     runs-on: windows-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '24'
+          node-version: "24"
           cache: npm
       - run: npm ci
-      - run: npx playwright install chrome msedge
+      - name: Verify installed Chrome and Edge
+        shell: pwsh
+        run: |
+          $chromePath = "${env:ProgramFiles}\Google\Chrome\Application\chrome.exe"
+          $edgePath = "${env:ProgramFiles(x86)}\Microsoft\Edge\Application\msedge.exe"
+          if (!(Test-Path $chromePath)) { npx playwright install chrome }
+          if (!(Test-Path $edgePath)) { npx playwright install msedge }
+          (Get-Item $chromePath).VersionInfo.ProductVersion
+          (Get-Item $edgePath).VersionInfo.ProductVersion
       - run: npm run build
       - run: npm test
         env:
-          WINDOWS_BROWSERS: '1'
+          WINDOWS_BROWSERS: "1"
       - uses: actions/upload-artifact@v4
         if: failure()
         with:
