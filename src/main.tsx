@@ -17,6 +17,8 @@ import {
   X,
   Square,
   Headphones,
+  Eye,
+  LogOut,
 } from "lucide-react";
 import { SegmentPlayer, type AudioState } from "./audio";
 import {
@@ -43,6 +45,7 @@ function App() {
     [ending, setEnding] = useState<"none" | "over" | "winner">("none"),
     [audioState, setAudioState] = useState<AudioState>("idle"),
     [mode, setMode] = useState(""),
+    [answer, setAnswer] = useState(false),
     [fraction, setFraction] = useState(0),
     [swReady, setSwReady] = useState(false),
     [online, setOnline] = useState(navigator.onLine);
@@ -182,6 +185,7 @@ function App() {
       currentRef.current = null;
       setCurrent(null);
       setMode("");
+      setAnswer(false);
     };
     window.addEventListener("popstate", pop);
     return () => window.removeEventListener("popstate", pop);
@@ -204,6 +208,7 @@ function App() {
     if (ready.length !== 15 || finishTimer.current !== null) return;
     setError("");
     setMode("");
+    setAnswer(false);
     currentRef.current = id;
     setCurrent(id);
     history.pushState({ question: id }, "", `#q${String(id).padStart(2, "0")}`);
@@ -246,11 +251,12 @@ function App() {
         return;
       if (currentRef.current === null) return;
       const k = e.key.toLowerCase();
-      if (["1", "3", "5", "r", "f", " ", "escape"].includes(k))
+      if (["1", "3", "5", "r", "f", "a", " ", "escape"].includes(k))
         e.preventDefault();
       if (["1", "3", "5"].includes(k)) void play(k);
       else if (k === "r") void play("대표");
       else if (k === "f") void play("전곡");
+      else if (k === "a") setAnswer(true);
       else if (k === " ") void player.current?.toggle();
       else if (k === "escape") leave();
     };
@@ -339,6 +345,12 @@ function App() {
               <>
                 <ChevronRight size={15} />
                 <strong>{track.displayNumber}</strong>
+                {answer && (
+                  <>
+                    <ChevronRight size={15} />
+                    <strong>정답</strong>
+                  </>
+                )}
               </>
             )}
           </div>
@@ -418,6 +430,63 @@ function App() {
                 문제 선택 <ChevronRight size={18} />
               </button>
             </div>
+          ) : track && answer ? (
+            <div className="question answer-screen">
+              <div className="question-heading">
+                <h1>{track.displayNumber}</h1>
+                <span>번 정답</span>
+              </div>
+              <div className={`music-stage ${audioState}`}>
+                <div className="disc">
+                  <div className="disc-center">
+                    <Music2 size={52} />
+                  </div>
+                </div>
+              </div>
+              <div className="answer-card" aria-live="polite">
+                <strong className="answer-title">{track.title}</strong>
+                <span className="answer-artist">{track.artist}</span>
+              </div>
+              <div className="answer-actions">
+                <button className="secondary" onClick={() => setAnswer(false)}>
+                  <ChevronLeft size={17} /> 문제로
+                </button>
+                <button className="primary" onClick={leave} aria-label="나가기">
+                  나가기 <LogOut size={16} />
+                </button>
+              </div>
+              <div className="player-tools">
+                <button
+                  aria-label={
+                    audioState === "paused" ? "이어서 듣기" : "일시정지"
+                  }
+                  onClick={() => void player.current?.toggle()}
+                  disabled={audioState === "idle"}
+                >
+                  {audioState === "paused" ? (
+                    <Play size={19} />
+                  ) : (
+                    <Pause size={19} />
+                  )}
+                </button>
+                <button
+                  aria-label="전곡 재생"
+                  onClick={() => void play("전곡")}
+                >
+                  <Music2 size={17} />
+                </button>
+                <button
+                  aria-label="정지"
+                  onClick={() => {
+                    selection.current++;
+                    player.current?.stop();
+                  }}
+                  disabled={audioState === "idle"}
+                >
+                  <Square size={16} />
+                </button>
+              </div>
+            </div>
           ) : track ? (
             <div className="question">
               <div className="question-heading">
@@ -493,6 +562,13 @@ function App() {
                   disabled={audioState === "idle"}
                 >
                   <Square size={16} />
+                </button>
+                <button
+                  className="reveal"
+                  onClick={() => setAnswer(true)}
+                  aria-label="정답 확인"
+                >
+                  <Eye size={16} /> 정답 확인
                 </button>
               </div>
             </div>

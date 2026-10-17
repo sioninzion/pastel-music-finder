@@ -49,7 +49,7 @@ export class SegmentPlayer {
       this.start = start;
       this.duration = duration ?? buffer.duration - start;
       this.consumed = 0;
-      this.schedule(Math.max(this.context.currentTime, requested + 0.8));
+      this.schedule(Math.max(this.context.currentTime, requested + 0.3));
     } catch (e) {
       if (ticket === this.generation) {
         this.stop();
@@ -113,7 +113,7 @@ export class SegmentPlayer {
         this.stop();
         return;
       }
-      this.schedule(this.context.currentTime + 0.8);
+      this.schedule(this.context.currentTime + 0.3);
     }
   }
 }

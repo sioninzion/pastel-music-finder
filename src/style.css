@@ -548,6 +548,69 @@ h1 {
 .player-tools button:hover:not(:disabled) {
   background: #eaf4fc;
 }
+.player-tools .reveal {
+  width: auto;
+  padding: 0 12px;
+  margin-left: 6px;
+  color: #2889cc;
+  font-weight: 500;
+  border: 1px solid #b7d9f5;
+}
+.answer-screen .music-stage {
+  min-height: 80px;
+}
+.answer-screen .disc {
+  height: clamp(95px, 18vh, 180px);
+}
+.answer-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin: 16px 0 20px;
+  text-align: center;
+  flex-shrink: 0;
+  animation: rise 0.35s ease-out;
+}
+.answer-title {
+  font-size: clamp(28px, 5vw, 52px);
+  font-weight: 700;
+  line-height: 1.15;
+}
+.answer-artist {
+  font-size: 17px;
+  color: #5f7d93;
+}
+.answer-actions {
+  display: flex;
+  gap: 12px;
+  flex-shrink: 0;
+}
+.answer-actions .primary {
+  min-width: 130px;
+}
+.secondary {
+  border-radius: 9px;
+  border: 1px solid #b7d9f5;
+  background: #f4faff;
+  color: #2178b5;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 12px 20px;
+}
+.secondary:hover {
+  background: #e7f3ff;
+}
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 .overlay {
   position: fixed;
   inset: 0;

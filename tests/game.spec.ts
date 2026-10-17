@@ -106,7 +106,8 @@ test("play timing, rapid replacement, pause, keyboard, completion and reset", as
     timeout: 3000,
   });
   const event = await page.evaluate(() => (window as any).audioEvents[0]);
-  expect(event.args[0] - event.now).toBeGreaterThan(0.6);
+  expect(event.args[0] - event.now).toBeGreaterThan(0.25);
+  expect(event.args[0] - event.now).toBeLessThan(0.6);
   expect(event.args[2]).toBe(1);
   await page.keyboard.press("3");
   await page.keyboard.press("1");
@@ -240,4 +241,50 @@ test("representative segment accepts mm:ss and full track uses complete duration
   args = await page.evaluate(() => (window as any).audioEvents.at(-1));
   expect(args[1]).toBe(0);
   expect(args[2]).toBeCloseTo(8, 2);
+});
+test("answer screen reveals title and exit completes the question", async ({
+  page,
+}) => {
+  await prepare(page);
+  await page.getByRole("button", { name: "03번 문제", exact: true }).click();
+  await expect(page.locator(".content")).not.toContainText("Love Attack");
+  await page.getByRole("button", { name: "3초 재생", exact: true }).click();
+  await page.getByRole("button", { name: "정답 확인", exact: true }).click();
+  await expect(page.locator(".answer-title")).toHaveText("Love Attack");
+  await expect(page.locator(".answer-artist")).toHaveText("리센느");
+  await expect(page.locator(".breadcrumb")).toContainText("정답");
+  await expect(page.locator(".play-state")).toHaveCount(0);
+  await page.waitForTimeout(500);
+  await page.screenshot({ path: "test-results/answer-1366.png" });
+  for (const vp of [
+    { width: 1366, height: 768 },
+    { width: 390, height: 844 },
+  ]) {
+    await page.setViewportSize(vp);
+    expect(
+      await page.evaluate(
+        () =>
+          document.documentElement.scrollWidth <= innerWidth &&
+          document.documentElement.scrollHeight <= innerHeight,
+      ),
+    ).toBe(true);
+    await expect(
+      page.getByRole("button", { name: "나가기", exact: true }),
+    ).toBeInViewport();
+  }
+  await page.setViewportSize({ width: 1366, height: 768 });
+  await page.getByRole("button", { name: "문제로" }).click();
+  await expect(page.locator(".answer-title")).toHaveCount(0);
+  await expect(
+    page.getByRole("button", { name: "03번 문제", exact: true }),
+  ).toHaveCount(0);
+  await page.keyboard.press("a");
+  await expect(page.locator(".answer-title")).toHaveText("Love Attack");
+  await page.getByRole("button", { name: "나가기", exact: true }).click();
+  await expect(
+    page.getByRole("button", { name: "03번 문제 완료" }),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "03번 문제 완료" }).click();
+  await expect(page.locator(".answer-title")).toHaveCount(0);
+  await expect(page.locator(".play-state")).toContainText("재생 대기");
 });
