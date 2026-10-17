@@ -1,0 +1,245 @@
+{
+  "assignmentVersion": "2026-10-18-initial",
+  "tracks": [
+    {
+      "id": 1,
+      "displayNumber": "01",
+      "artist": "에스파",
+      "title": "Whiplash",
+      "youtubeUrl": "https://youtu.be/uVeZbG8AfsQ?si=590wKndJxPgbscww",
+      "audioFile": "audio/01 - Whiplash.mp3",
+      "audioVersion": "1",
+      "highlightStart": null,
+      "highlightDuration": 3,
+      "youtubeMetadata": {
+        "title": "aespa (에스파) - Whiplash [가사/Lyrics]",
+        "author": "웅키",
+        "checkedAt": "2026-10-17T15:19:20.768Z"
+      }
+    },
+    {
+      "id": 2,
+      "displayNumber": "02",
+      "artist": "뽀로로",
+      "title": "노는 게 제일 좋아",
+      "youtubeUrl": "https://youtu.be/E0W5sJZ2d64?si=Sx9mcxmaVt356XeI",
+      "audioFile": "audio/02 - 노는 게 제일 좋아.mp3",
+      "audioVersion": "1",
+      "highlightStart": null,
+      "highlightDuration": 3,
+      "youtubeMetadata": {
+        "title": "[뽀로로 1기] 오프닝 송♪ 노는 게 제일 좋아♪",
+        "author": "뽀로로(Pororo)",
+        "checkedAt": "2026-10-17T15:19:20.862Z"
+      }
+    },
+    {
+      "id": 3,
+      "displayNumber": "03",
+      "artist": "리센느",
+      "title": "Love Attack",
+      "youtubeUrl": "https://youtu.be/VnqgmOJaMGc?si=GjiU0X3_1Zra0rGA",
+      "audioFile": "audio/03 - Love Attack.mp3",
+      "audioVersion": "1",
+      "highlightStart": null,
+      "highlightDuration": 3,
+      "youtubeMetadata": {
+        "title": "RESCENE (리센느) - LOVE ATTACK(러브어택) [가사 | Lyrics]",
+        "author": "슬랴+",
+        "checkedAt": "2026-10-17T15:19:20.966Z"
+      }
+    },
+    {
+      "id": 4,
+      "displayNumber": "04",
+      "artist": "보이넥스트도어",
+      "title": "오늘만 I LOVE YOU",
+      "youtubeUrl": "https://youtu.be/u83Xd_7Sxn8?si=bFeDhsy2pYVojWNo",
+      "audioFile": "audio/04 - 오늘만 I LOVE YOU.mp3",
+      "audioVersion": "1",
+      "highlightStart": null,
+      "highlightDuration": 3,
+      "youtubeMetadata": {
+        "title": "BOYNEXTDOOR (보이넥스트도어) - 오늘만 I LOVE YOU [가사 | Lyrics]",
+        "author": "슬랴+",
+        "checkedAt": "2026-10-17T15:19:21.066Z"
+      }
+    },
+    {
+      "id": 5,
+      "displayNumber": "05",
+      "artist": "위러브",
+      "title": "우리가 주를 더욱 사랑하고",
+      "youtubeUrl": "https://youtu.be/aZKVBRA_hAg?si=BOWxpmJCiw_z1LX0",
+      "audioFile": "audio/05 - 우리가 주를 더욱 사랑하고.mp3",
+      "audioVersion": "1",
+      "highlightStart": null,
+      "highlightDuration": 3,
+      "youtubeMetadata": {
+        "title": "WELOVE | 우리가 주를 더욱 사랑하고 | Loving You More [애가 | Love in the Lament]",
+        "author": "WELOVE CREATIVE TEAM",
+        "checkedAt": "2026-10-17T15:19:21.185Z"
+      }
+    },
+    {
+      "id": 6,
+      "displayNumber": "06",
+      "artist": "우즈",
+      "title": "Drowning",
+      "youtubeUrl": "https://youtu.be/v39uoOIoOhI?si=jDXrit0IL1-PpRAE",
+      "audioFile": "audio/06 - Drowning.mp3",
+      "audioVersion": "1",
+      "highlightStart": null,
+      "highlightDuration": 3,
+      "youtubeMetadata": {
+        "title": "WOODZ (우즈) - Drowning(드라우닝) [가사 | Lyrics]",
+        "author": "슬랴+",
+        "checkedAt": "2026-10-17T15:19:21.283Z"
+      }
+    },
+    {
+      "id": 7,
+      "displayNumber": "07",
+      "artist": "팀룩워십",
+      "title": "주와 함께 걸어가네",
+      "youtubeUrl": "https://youtu.be/gaG8xq_tQXA?si=nGrXzOkPDb3mPj2N",
+      "audioFile": "audio/07 - 주와 함께 걸어가네.mp3",
+      "audioVersion": "1",
+      "highlightStart": null,
+      "highlightDuration": 3,
+      "youtubeMetadata": {
+        "title": "주와 함께 걸어가네 Walking With The Lord",
+        "author": "팀룩워십 (Team Luke Worship) - Topic",
+        "checkedAt": "2026-10-17T15:19:21.376Z"
+      }
+    },
+    {
+      "id": 8,
+      "displayNumber": "08",
+      "artist": "에이티즈",
+      "title": "Bad",
+      "youtubeUrl": "https://youtu.be/DGXiA_lHYfg?si=tgcW18kdFRxjOe0R",
+      "audioFile": "audio/08 - Bad.mp3",
+      "audioVersion": "1",
+      "highlightStart": null,
+      "highlightDuration": 3,
+      "youtubeMetadata": {
+        "title": "ATEEZ(에이티즈) - BAD(배드) [가사 | Lyrics]",
+        "author": "슬랴+",
+        "checkedAt": "2026-10-17T15:19:21.471Z"
+      }
+    },
+    {
+      "id": 9,
+      "displayNumber": "09",
+      "artist": "Storm",
+      "title": "II",
+      "youtubeUrl": "https://youtu.be/yuIB3jmC_0M?si=AvPsv2eciIq7vJGA",
+      "audioFile": "audio/09 - II.mp3",
+      "audioVersion": "1",
+      "highlightStart": null,
+      "highlightDuration": 3,
+      "youtubeMetadata": {
+        "title": "STORM II",
+        "author": "GENER8ION - Topic",
+        "checkedAt": "2026-10-17T15:19:21.597Z"
+      }
+    },
+    {
+      "id": 10,
+      "displayNumber": "10",
+      "artist": "투어스",
+      "title": "Overdrive",
+      "youtubeUrl": "https://youtu.be/rFqxUAUt8bM?si=OiWyObxNaXk4H7n8",
+      "audioFile": "audio/10 - Overdrive.mp3",
+      "audioVersion": "1",
+      "highlightStart": null,
+      "highlightDuration": 3,
+      "youtubeMetadata": {
+        "title": "TWS (투어스) - OVERDRIVE [가사/Lyrics]",
+        "author": "웅키",
+        "checkedAt": "2026-10-17T15:19:21.773Z"
+      }
+    },
+    {
+      "id": 11,
+      "displayNumber": "11",
+      "artist": "A2O LITE",
+      "title": "Neon",
+      "youtubeUrl": "https://youtu.be/w4wLXdrl_rg?si=v0Q9FCM-MHqx-b5O",
+      "audioFile": "audio/11 - Neon.mp3",
+      "audioVersion": "1",
+      "highlightStart": null,
+      "highlightDuration": 3,
+      "youtubeMetadata": {
+        "title": "A2O, A2O LITE - NEON [가사/Lyrics]",
+        "author": "웅키",
+        "checkedAt": "2026-10-17T15:19:21.863Z"
+      }
+    },
+    {
+      "id": 12,
+      "displayNumber": "12",
+      "artist": "코르티스",
+      "title": "REDRED",
+      "youtubeUrl": "https://youtu.be/ZF49-rKzTLk?si=4zQ2JDYbffahAp1C",
+      "audioFile": "audio/12 - REDRED.mp3",
+      "audioVersion": "1",
+      "highlightStart": null,
+      "highlightDuration": 3,
+      "youtubeMetadata": {
+        "title": "CORTIS (코르티스) - REDRED [가사/Lyrics]",
+        "author": "웅키",
+        "checkedAt": "2026-10-17T15:19:21.975Z"
+      }
+    },
+    {
+      "id": 13,
+      "displayNumber": "13",
+      "artist": "기독교캠프코리아",
+      "title": "내 안에 부어주소서",
+      "youtubeUrl": "https://youtu.be/cog2rIOZaLY?si=_jcRedeosjE5R1xm",
+      "audioFile": "audio/13 - 내 안에 부어주소서.mp3",
+      "audioVersion": "1",
+      "highlightStart": null,
+      "highlightDuration": 3,
+      "youtubeMetadata": {
+        "title": "내 안에 부어주소서",
+        "author": "CAMPKOREA MUSIC - Topic",
+        "checkedAt": "2026-10-17T15:19:22.138Z"
+      }
+    },
+    {
+      "id": 14,
+      "displayNumber": "14",
+      "artist": "아일릿",
+      "title": "It's Me",
+      "youtubeUrl": "https://youtu.be/P0odkgzbqw0?si=_o6yJWoRIb11i5QP",
+      "audioFile": "audio/14 - It's Me.mp3",
+      "audioVersion": "1",
+      "highlightStart": null,
+      "highlightDuration": 3,
+      "youtubeMetadata": {
+        "title": "아일릿(ILLIT) - It's Me(잇츠미) [가사 | Lyrics]",
+        "author": "슬랴+",
+        "checkedAt": "2026-10-17T15:19:22.232Z"
+      }
+    },
+    {
+      "id": 15,
+      "displayNumber": "15",
+      "artist": "기프티드",
+      "title": "일어나라 주의 백성",
+      "youtubeUrl": "https://youtu.be/msoUcH6EJSo?si=ZYrA48_w52Nv5O_X",
+      "audioFile": "audio/15 - 일어나라 주의 백성.mp3",
+      "audioVersion": "1",
+      "highlightStart": null,
+      "highlightDuration": 3,
+      "youtubeMetadata": {
+        "title": "일어나라 주의 백성 (Live)",
+        "author": "GIFTED - Topic",
+        "checkedAt": "2026-10-17T15:19:22.355Z"
+      }
+    }
+  ]
+}
