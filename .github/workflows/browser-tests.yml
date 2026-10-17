@@ -29,6 +29,7 @@ jobs:
       - run: npm test
         env:
           WINDOWS_BROWSERS: "1"
+          REAL_AUDIO: "1"
       - uses: actions/upload-artifact@v4
         if: failure()
         with:

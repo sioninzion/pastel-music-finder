@@ -1,4 +1,9 @@
 import { test, expect, type Page } from "@playwright/test";
+test.beforeEach(async ({ page }) => {
+  await page.route("**/audio/**", (route) =>
+    route.fulfill({ status: 404, body: "" }),
+  );
+});
 function wav(seconds = 8) {
   const rate = 8000,
     n = rate * seconds,
